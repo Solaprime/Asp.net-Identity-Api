@@ -1,0 +1,10 @@
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\bin\Debug\netcoreapp3.1\Asp.netShared.deps.json
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\bin\Debug\netcoreapp3.1\Asp.netShared.dll
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\bin\Debug\netcoreapp3.1\Asp.netShared.pdb
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\obj\Debug\netcoreapp3.1\Asp.netShared.csproj.AssemblyReference.cache
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\obj\Debug\netcoreapp3.1\Asp.netShared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\obj\Debug\netcoreapp3.1\Asp.netShared.AssemblyInfoInputs.cache
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\obj\Debug\netcoreapp3.1\Asp.netShared.AssemblyInfo.cs
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\obj\Debug\netcoreapp3.1\Asp.netShared.csproj.CoreCompileInputs.cache
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\obj\Debug\netcoreapp3.1\Asp.netShared.dll
+C:\Users\Arinola\Desktop\Identity\Asp.netShared\obj\Debug\netcoreapp3.1\Asp.netShared.pdb
