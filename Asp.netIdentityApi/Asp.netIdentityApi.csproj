@@ -15,5 +15,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Asp.netShared\Asp.netShared.csproj" />
+  </ItemGroup>
+
 
 </Project>

@@ -1,4 +1,5 @@
 using Asp.netIdentityApi.Model;
+using Asp.netIdentityApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -63,7 +64,7 @@ namespace Asp.netIdentityApi
                      ValidIssuer ="http://ahmadmozaffar.net"
                 };
             });
-
+            services.AddScoped<IUserService, UserService > ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

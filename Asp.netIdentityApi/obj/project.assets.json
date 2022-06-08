@@ -1879,6 +1879,16 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
+      },
+      "Asp.netShared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/Asp.netShared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Asp.netShared.dll": {}
+        }
       }
     }
   },
@@ -6524,10 +6534,16 @@
         "system.xml.xmlserializer.4.3.0.nupkg.sha512",
         "system.xml.xmlserializer.nuspec"
       ]
+    },
+    "Asp.netShared/1.0.0": {
+      "type": "project",
+      "path": "../Asp.netShared/Asp.netShared.csproj",
+      "msbuildProject": "../Asp.netShared/Asp.netShared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v3.1": [
+      "Asp.netShared >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 3.1.0",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 3.1.0",
@@ -6566,7 +6582,11 @@
       "frameworks": {
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Arinola\\Desktop\\Identity\\Asp.netShared\\Asp.netShared.csproj": {
+              "projectPath": "C:\\Users\\Arinola\\Desktop\\Identity\\Asp.netShared\\Asp.netShared.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
