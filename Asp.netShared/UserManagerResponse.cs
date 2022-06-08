@@ -12,5 +12,8 @@ namespace Asp.netShared
         public string Message { get; set; }
         public bool IsSuccess { get; set; }
         public IEnumerable<string> Error { get; set; }
+        // Additonal Property for when the token
+        // will expired
+        public DateTime? ExpiredDate { get; set; }
     }
 }

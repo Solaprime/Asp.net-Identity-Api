@@ -59,9 +59,9 @@ namespace Asp.netIdentityApi
                      ValidateAudience = true,
                      RequireExpirationTime = true,
                      ValidateIssuerSigningKey = true,
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("This is the Key we will use in the Encruption")),
-                     ValidAudience ="http://ahmadmozaffar.net", 
-                     ValidIssuer ="http://ahmadmozaffar.net"
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["AuthSettings:Key"])),
+                     ValidAudience = Configuration["AuthSettings:Audience"], 
+                     ValidIssuer = Configuration["AuthSettings:Issuer"]
                 };
             });
             services.AddScoped<IUserService, UserService > ();
@@ -78,6 +78,8 @@ namespace Asp.netIdentityApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
+            // before authorization add app.useAuthorization confirm the order od placement
+            app.UseAuthentication();
 
             app.UseAuthorization();
 
@@ -88,3 +90,8 @@ namespace Asp.netIdentityApi
         }
     }
 }
+
+//since we haave to be authenticated to acces weattherforecast controller now, we implement to login function
+// to generate acess token..
+// then before we can acces the weatherforecast controoller we put the access tokenm genratd 
+// when u login to the header of the get Method
