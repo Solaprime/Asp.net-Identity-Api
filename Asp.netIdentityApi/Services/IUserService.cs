@@ -44,14 +44,18 @@ namespace Asp.netIdentityApi.Services
 
             }
 
-            if (model.Password != model.ConfirmPassword)
-            {
-                return new UserManagerResponse
-                {
-                    Message = "Confirm password is not matching with password",
-                    IsSuccess = false,
-                };
-            }
+            //if (model.Password != model.ConfirmPassword)
+            //{
+            //    return new UserManagerResponse
+            //    {
+            //        Message = "Confirm password is not matching with password",
+            //        IsSuccess = false,
+            //    };
+            //}
+            //if (Modetate.IsValid)
+            //{
+
+            //}
             var identityUser = new IdentityUser()
             {
                 // we are pasing some of the defined property in our RegisterviewModel class

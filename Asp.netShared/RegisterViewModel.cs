@@ -13,10 +13,15 @@ namespace Asp.netShared
         public string Email { get; set; }
         [Required]
         [StringLength(50, MinimumLength =5)]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 5)]
+        [DataType(DataType.Password)]
+        [Display(Name ="Confirm Password")]
+        [Compare("Password", 
+            ErrorMessage ="Tested a new Data Attribute confirm Password and Paassword dont match")]
         public string ConfirmPassword { get; set; }
 
         // this class will reperesent the data transfer object{DTO} that
@@ -28,3 +33,6 @@ namespace Asp.netShared
         // we are going to serialize an object of this class ans send to thr Api
     }
 }
+
+// Added some Data attributes to compare Password 
+//Added capabolity for all user ti have unique email
