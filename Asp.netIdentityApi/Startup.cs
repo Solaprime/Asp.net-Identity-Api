@@ -32,7 +32,7 @@ namespace Asp.netIdentityApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddDbContext<EmployeeContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("IdentityDb"));
@@ -96,3 +96,11 @@ namespace Asp.netIdentityApi
 // to generate acess token..
 // then before we can acces the weatherforecast controoller we put the access tokenm genratd 
 // when u login to the header of the get Method
+
+
+
+
+
+
+/// "The JSON value could not be converted to System.String. Path: $ | LineNumber: 0 | BytePositionInLine: 1."
+/// 

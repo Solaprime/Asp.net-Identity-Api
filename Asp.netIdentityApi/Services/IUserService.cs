@@ -1,5 +1,6 @@
 ﻿using Asp.netShared;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -12,10 +13,22 @@ using System.Threading.Tasks;
 
 namespace Asp.netIdentityApi.Services
 {
+    /// <summary>
+    /// YOu can add more Propertiesd to the User Manager Respos 
+    /// </summary>
     public interface IUserService
     {
         Task<UserManagerResponse> RegisterUserAsync(RegisterViewModel model);
         Task<UserManagerResponse> LoginUserAsync(LoginViewModel model);
+        // start workflow
+        Task<UserManagerResponse> CreateRole(string name);
+        Task<IEnumerable<IdentityRole>> GetAllRole();
+        Task<IEnumerable<IdentityUser>> GetAllUsers();
+        Task<UserManagerResponse> AddUserToRole(RoleEmail roleEmail);
+        Task<UserManagerResponse> RemoveUserFromRole(RoleEmail roleEmail);
+        //Task<IdentityRole> GetUserRoles(string email);
+
+
     }
     public class UserService : IUserService
     {
@@ -23,15 +36,19 @@ namespace Asp.netIdentityApi.Services
         // recall we registerd identtiy in our startup
         // Identity by default provides with 2 class
         // user manager and Role Mangaer
-        private UserManager<IdentityUser> _userManger;
+        private UserManager<IdentityUser> _userManager;
         private IConfiguration _configuration;
+        private RoleManager<IdentityRole> _roleManager;
 
-        public UserService(UserManager<IdentityUser> userManager,   IConfiguration configuration)
+
+        public UserService(UserManager<IdentityUser> userManager,   IConfiguration configuration,
+             RoleManager<IdentityRole> roleManager)
         {
             // the identity is used to manage our user, i.e create a user,
             // update a user passwo4d e.t.c
-            _userManger = userManager;
+            _userManager = userManager;
             _configuration = configuration;
+            _roleManager = roleManager;
         }
 
 
@@ -65,7 +82,7 @@ namespace Asp.netIdentityApi.Services
                 UserName = model.Email
             };
             // the above method creates the user with the password harsh
-            var result = await _userManger.CreateAsync(identityUser, model.Password);
+            var result = await _userManager.CreateAsync(identityUser, model.Password);
             if (result.Succeeded)
             {
                 return new UserManagerResponse
@@ -94,7 +111,7 @@ namespace Asp.netIdentityApi.Services
             // an access token will then be genreated and sent to the user with the usermanger response
             // inside the message property of the usermanager response
 
-            var user = await _userManger.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 return new UserManagerResponse
@@ -103,7 +120,7 @@ namespace Asp.netIdentityApi.Services
                     IsSuccess = false
                 };
             }
-            var result = await _userManger.CheckPasswordAsync(user, model.PassWord);
+            var result = await _userManager.CheckPasswordAsync(user, model.PassWord);
             if (!result )
             {
                 return new UserManagerResponse
@@ -147,6 +164,146 @@ namespace Asp.netIdentityApi.Services
             };
 
         }
+
+        //Create A role
+
+        public  async Task<UserManagerResponse> CreateRole(string rolename)
+        {
+            var roleExist = await _roleManager.RoleExistsAsync(rolename);
+            if (!roleExist)
+            {
+                var roleResult = await _roleManager.CreateAsync(new IdentityRole(rolename));
+                if (roleResult.Succeeded)
+                {
+                    return new UserManagerResponse
+                    {
+                           Message = $"The role {rolename} has been succeede succesfully",
+                           IsSuccess = true,
+                    };
+                }
+                else
+                {
+                    return new UserManagerResponse
+                    {
+                        IsSuccess = false,
+                        Message = $"The role {rolename} was not  created, Kindly try Again"
+                    };
+                }
+            }
+            return new UserManagerResponse
+            {
+                IsSuccess = false,
+                Message = "Role already exist"
+            };
+          
+        }
+
+        public async  Task<IEnumerable<IdentityRole>> GetAllRole()
+        {
+            var allRoles = await  _roleManager.Roles.ToListAsync();
+
+            return allRoles;
+        }
+
+        public async  Task<IEnumerable<IdentityUser>> GetAllUsers()
+        {
+            var users = await _userManager.Users.ToListAsync();
+            return users;
+        }
+
+        public  async Task<UserManagerResponse> AddUserToRole(RoleEmail roleEmail)
+        {
+            var user = await _userManager.FindByEmailAsync(roleEmail.Email);
+            if (user == null)
+            {
+                return new UserManagerResponse
+                {
+                    Message = "User can not be Found",
+                    IsSuccess = false
+                };
+            }
+
+            var roleExist = await _roleManager.RoleExistsAsync(roleEmail.RoleName);
+            if (!roleExist)
+            {
+                return new UserManagerResponse
+                {
+                    Message = "Role can not be Found",
+                    IsSuccess = false
+                };
+            }
+
+            var roleToBeAdded = await _userManager.AddToRoleAsync(user, roleEmail.RoleName);
+            if (roleToBeAdded.Succeeded)
+            {
+                return new UserManagerResponse
+                {
+                    Message = $"{roleEmail.RoleName} role was added to {roleEmail.Email} ",
+                    IsSuccess = true
+                };
+            }
+            return new UserManagerResponse
+            {
+                Message = "Something Bad happenes Found",
+                IsSuccess = false
+            };
+
+        }
+
+        public  async Task<UserManagerResponse> RemoveUserFromRole(RoleEmail roleEmail)
+        {
+
+            var user = await _userManager.FindByEmailAsync(roleEmail.Email);
+            if (user == null)
+            {
+                return new UserManagerResponse
+                {
+                    Message = "User can not be Found",
+                    IsSuccess = false
+                };
+            }
+
+            var roleExist = await _roleManager.RoleExistsAsync(roleEmail.RoleName);
+            if (!roleExist)
+            {
+                return new UserManagerResponse
+                {
+                    Message = "Role can not be Found",
+                    IsSuccess = false
+                };
+            }
+            var result = await _userManager.RemoveFromRoleAsync(user, roleEmail.RoleName);
+            if (result.Succeeded)
+            {
+                return new UserManagerResponse
+                {
+                    Message = "User was succesfully Remove from  role",
+                    IsSuccess = true
+                };
+            }
+
+            return new UserManagerResponse
+            {
+                Message = "Some shit happedned Found",
+                IsSuccess = false
+            };
+
+        }
+
+        //public  async Task<IdentityRole> GetUserRoles(string email)
+        //{
+        //    var user = await _userManager.FindByEmailAsync(email);
+        //    if (user == null)
+        //    {
+        //        return new UserManagerResponse
+        //        {
+        //            Message = "User can not be Found",
+        //            IsSuccess = false
+        //        };
+        //    }
+        //    var roles = await _userManager.GetRolesAsync(user);
+
+        //}
     }
 }
 
