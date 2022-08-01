@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.netIdentityApi.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -44,5 +45,12 @@ namespace Asp.netIdentityApi.Controllers
 
         // our first step we add the authorized atrribute to the controller
         // then go to our middle ware pipelone and add app.useAuthentication
+
+        [HttpGet("GettingEmailFroomToken")]
+        public IActionResult  TestClaim()
+        {
+            var emailToken = HttpContext.GetUserEmailFromToken();
+            return Ok(emailToken);
+        }
     }
 }

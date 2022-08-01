@@ -40,10 +40,10 @@ namespace Asp.netIdentityApi
             // Let configure thre Identity
             // the identiy usrer and role are in the Identity Namespace
             services.AddIdentity<IdentityUser, IdentityRole>(options=> {
-                options.Password.RequireDigit = true;
-                options.Password.RequireLowercase = true;
+                options.Password.RequireDigit = false;   // true
+                options.Password.RequireLowercase = false; // true
                 options.Password.RequiredLength = 5;
-                options.User.RequireUniqueEmail = true;
+                options.User.RequireUniqueEmail = true;  
 
             }).AddEntityFrameworkStores<EmployeeContext>()
             .AddDefaultTokenProviders();

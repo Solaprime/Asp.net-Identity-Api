@@ -133,14 +133,18 @@ namespace Asp.netIdentityApi.Services
             // the acces token will hold the claims{More specfialcally an Array of Claims},
             //the claims is basically just a user related information, like th allowed permission of the user
 
+            // I want to try to Claim the role i.e the Jwt Token should contain info on the role or other property
+            var roleOfUser = await _userManager.GetRolesAsync(user);
             var claims = new[]
             {
                 // there are bunch if already [predefine types in the Claim types
                 new Claim ("Email", model.Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
+                new Claim(ClaimTypes.Role, roleOfUser.ToString())
+               
             };
             //Enc
-
+             
             var Key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["AuthSettings:Key"]));
 
             // time to genrate the token
