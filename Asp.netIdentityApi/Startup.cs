@@ -1,6 +1,8 @@
+using Asp.netIdentityApi.CustomAuthorization;
 using Asp.netIdentityApi.Model;
 using Asp.netIdentityApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -65,6 +67,12 @@ namespace Asp.netIdentityApi
                      ValidIssuer = Configuration["AuthSettings:Issuer"]
                 };
             });
+            services.AddAuthorization(options => {
+                options.AddPolicy("EmailMustStartWithTest", policy => {
+                    policy.AddRequirements(new TestAccountRequirement("Test"));
+                });
+            });
+            services.AddSingleton<IAuthorizationHandler, TestAccountHandler>();
             services.AddScoped<IUserService, UserService > ();
         }
 
