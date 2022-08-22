@@ -1,3 +1,4 @@
+using Asp.netIdentityApi.ConfigurationObject;
 using Asp.netIdentityApi.CustomAuthorization;
 using Asp.netIdentityApi.Model;
 using Asp.netIdentityApi.Services;
@@ -74,6 +75,22 @@ namespace Asp.netIdentityApi
             });
             services.AddSingleton<IAuthorizationHandler, TestAccountHandler>();
             services.AddScoped<IUserService, UserService > ();
+            // Playing with Configuration
+
+           // services.Configure<HomePageConfiguration>(Configuration.GetSection("Features:HomePage"));
+            // Working with named configuration
+
+            services.Configure<ExternalServicesConfig>("WeatherApi",
+                Configuration.GetSection("ExternalService:WeatherApi"));
+            services.Configure<ExternalServicesConfig>("ProductsApi",
+               Configuration.GetSection("ExternalService:ProductApi"));
+
+
+            // Applying some data annotation to our object
+            //   services.Configure<HomePageConfiguration>(Configuration.GetSection("Features:HomePage"));
+            services.AddOptions<HomePageConfiguration>()
+                .Bind(Configuration.GetSection("Features:HomePage")).ValidateDataAnnotations();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
